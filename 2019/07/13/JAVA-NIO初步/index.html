@@ -15,14 +15,14 @@
 <meta property="og:site_name" content="Sywang的博客">
 <meta property="og:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="f:%5Ccode%5Cmdfile%5Celements%5Cbuffers-modes.png%22buffer%E8%AF%BB%E5%86%99%E6%A8%A1%E5%BC%8F%22">
-<meta property="og:image" content="f:%5Ccode%5Cmdfile%5Celements%5C554581-20170626235823993-1417525264.png">
-<meta property="og:image" content="f:%5Ccode%5Cmdfile%5Celements%5C554581-20170626235939664-204697244.png">
-<meta property="og:updated_time" content="2019-07-13T10:27:55.701Z">
+<meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235823993-1417525264.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235939664-204697244.png">
+<meta property="og:updated_time" content="2019-07-13T11:52:21.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA NIO初步">
 <meta name="twitter:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
-<meta name="twitter:image" content="f:%5Ccode%5Cmdfile%5Celements%5Cbuffers-modes.png%22buffer%E8%AF%BB%E5%86%99%E6%A8%A1%E5%BC%8F%22">
+<meta name="twitter:image" content="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png">
   
     <link rel="alternative" href="/atom.xml" title="Sywang的博客" type="application/atom+xml">
   
@@ -215,7 +215,7 @@
 <li>capacity : 缓冲区最大容量。</li>
 </ul>
 </blockquote>
-<p><img src="F:%5Ccode%5Cmdfile%5Celements%5Cbuffers-modes.png%22buffer%E8%AF%BB%E5%86%99%E6%A8%A1%E5%BC%8F%22" alt="buffer读写模式"></p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png" alt="buffer读写模式"></p>
 <p>Buffer拥有基本上所有JAVA 基本数据类型的子类：ByteBuffer、CharBuffer、ShortBuffer、IntBuffer、LongBuffer、FloatBuffer、DoubleBuffer。</p>
 <h4 id="ByteBuffer操作实例"><a href="#ByteBuffer操作实例" class="headerlink" title="ByteBuffer操作实例"></a>ByteBuffer操作实例</h4><p>要进行缓冲区操作，首先要使用Buffer的allocate进行内存分配。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//分配缓冲区内存</span></span><br><span class="line">		ByteBuffer buf = ByteBuffer.allocate(<span class="number">1024</span>);</span><br></pre></td></tr></table></figure>
@@ -263,9 +263,9 @@
 <p>直接缓冲区：JVM通过<strong>物理内存映射文件</strong>直接调用和内存中的数据，并返回给应用。通过allocateDirect分配直接缓冲区，将缓冲区建立在物理内存中，可以提高效率。</p>
 </blockquote>
 <ul>
-<li><input disabled type="checkbox"> <img src="F:%5Ccode%5Cmdfile%5Celements%5C554581-20170626235823993-1417525264.png" alt="非直接缓冲区"></li>
+<li><input disabled type="checkbox"> <img src="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235823993-1417525264.png" alt="非直接缓冲区"></li>
 </ul>
-<p><img src="F:%5Ccode%5Cmdfile%5Celements%5C554581-20170626235939664-204697244.png" alt="直接缓冲区"></p>
+<p><img src="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235939664-204697244.png" alt="直接缓冲区"></p>
 <h4 id="NIO中通道-Channel-的概念"><a href="#NIO中通道-Channel-的概念" class="headerlink" title="NIO中通道(Channel)的概念"></a>NIO中通道(Channel)的概念</h4><p>通道表示打开到IO设备的连接。在NIO系统中，通道负责传输；缓冲区负责存储。在JAVA NIO中，通道由java.nio.channels包定义。 </p>
 <p>Java NIO中最重要的通道的实现：</p>
 <ul>
@@ -384,8 +384,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2019/07/13/JAVA-多线程基础/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JAVA 多线程基础</div>
+    <a href="/2019/07/13/JAVA-NIOO/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JAVA NIOO</div>
       <i class="icon-circle-right"></i>
     </a>
   
