@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>JAVA IO学习记录 | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言    前些天想学习JAVA的一个异步事件驱动的网络应用框架Netty，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。   File类    文件IO的操作源类。常见的数据源有文件、网络、计算机内存等。File类既可以表示文件也可以表示文件夹，创建好的File类可能不存在。具体File类参考API文档：JAVA API在线文档   通过F">
+  <meta name="description" content="前言    前些天想学习JAVA的一个异步事件驱动的网络应用框架Netty，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。">
 <meta name="keywords" content="java,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JAVA IO学习记录">
 <meta property="og:url" content="http://yoursite.com/2019/07/10/JAVA-IO学习记录/index.html">
 <meta property="og:site_name" content="Sywang的博客">
-<meta property="og:description" content="前言    前些天想学习JAVA的一个异步事件驱动的网络应用框架Netty，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。   File类    文件IO的操作源类。常见的数据源有文件、网络、计算机内存等。File类既可以表示文件也可以表示文件夹，创建好的File类可能不存在。具体File类参考API文档：JAVA API在线文档   通过F">
+<meta property="og:description" content="前言    前些天想学习JAVA的一个异步事件驱动的网络应用框架Netty，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-14T04:00:31.958Z">
+<meta property="og:updated_time" content="2019-07-14T04:20:25.454Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA IO学习记录">
-<meta name="twitter:description" content="前言    前些天想学习JAVA的一个异步事件驱动的网络应用框架Netty，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。   File类    文件IO的操作源类。常见的数据源有文件、网络、计算机内存等。File类既可以表示文件也可以表示文件夹，创建好的File类可能不存在。具体File类参考API文档：JAVA API在线文档   通过F">
+<meta name="twitter:description" content="前言    前些天想学习JAVA的一个异步事件驱动的网络应用框架Netty，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。">
   
     <link rel="alternative" href="/atom.xml" title="Sywang的博客" type="application/atom+xml">
   
@@ -62,7 +62,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/photos">相册</a></li>
+				<li><a href="/photos/">相册</a></li>
 	        
 			</ul>
 		</nav>
@@ -140,7 +140,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/photos">相册</a></li>
+					<li style="width: 50%"><a href="/photos/">相册</a></li>
 		        
 				</ul>
 			</nav>
@@ -171,6 +171,13 @@
   	<time datetime="2019-07-10T03:56:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-10</time>
 </a>
         
+		
+		
+        <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
@@ -179,6 +186,7 @@
 <p>   前些天想学习JAVA的一个异步事件驱动的网络应用框架<a href="https://netty.io" target="_blank" rel="noopener">Netty</a>，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。</p>
 </blockquote>
 <hr>
+<a id="more"></a>
 <h2 id="File类"><a href="#File类" class="headerlink" title="File类"></a>File类</h2><blockquote>
 <p>   文件IO的操作源类。常见的数据源有文件、网络、计算机内存等。File类既可以表示文件也可以表示文件夹，创建好的File类可能不存在。具体File类参考API文档：<a href="https://docs.oracle.com/javase/8/docs/api/" target="_blank" rel="noopener">JAVA API在线文档</a></p>
 </blockquote>
@@ -258,6 +266,11 @@
                 </span>
               </span>
             </span>
+			
+			<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
           </div>
           </a>
         </div>
@@ -390,18 +403,26 @@
           </div>
         </div>
       </div>
-      <footer id="footer">
+      <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<footer id="footer">
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
     		&copy; 2019 Sywang
     	</div>
+		  <span id="busuanzi_container_site_uv"> 
+		本站访客数<span id="busuanzi_value_site_uv"></span>人次
+		</span>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
       	</div>
     </div>
   </div>
+
 </footer>
+
+
+
     </div>
     <script>
 	var yiliaConfig = {

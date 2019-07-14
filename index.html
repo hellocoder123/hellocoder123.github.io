@@ -60,7 +60,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/photos">相册</a></li>
+				<li><a href="/photos/">相册</a></li>
 	        
 			</ul>
 		</nav>
@@ -138,7 +138,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/photos">相册</a></li>
+					<li style="width: 50%"><a href="/photos/">相册</a></li>
 		        
 				</ul>
 			</nav>
@@ -171,123 +171,17 @@
   	<time datetime="2019-07-13T10:23:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-13</time>
 </a>
         
+		
+		
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
         <p>Netty网络通讯框架的底层都是基于NIO实现的连接。</p>
-<h2 id="NIO-NonBlock-IO"><a href="#NIO-NonBlock-IO" class="headerlink" title="NIO(NonBlock IO)"></a>NIO(NonBlock IO)</h2><h4 id="阻塞-Block-与非阻塞-Nonblock-的概念"><a href="#阻塞-Block-与非阻塞-Nonblock-的概念" class="headerlink" title="阻塞(Block)与非阻塞(Nonblock)的概念"></a>阻塞(Block)与非阻塞(Nonblock)的概念</h4><p>阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。</p>
-<p>阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。</p>
-<p>非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。</p>
-<blockquote>
-<p>​        JAVA NIO从JAVA 1.4开始，基于通道(Channel)和缓冲区(Buffer)进行操作：数据总是从通道读入到缓冲区中，或者从缓冲区写入通道。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th align="center">NIO</th>
-<th align="center">BIO</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">非阻塞式</td>
-<td align="center">阻塞式</td>
-</tr>
-<tr>
-<td align="center">Channel+Buffer实现IO操作</td>
-<td align="center">字节流、字符流实现IO操作</td>
-</tr>
-<tr>
-<td align="center">选择器</td>
-<td align="center">无</td>
-</tr>
-</tbody></table>
-<p>标准IO在某一时刻只能读取或者写出某一文件（操作文件时经常会报“文件被占用的”错误）NIO通过建立通道，将数据的读写转移到缓冲区中，从而实现双向的读写操作。</p>
-<h4 id="NIO中缓冲区-Buffer-的概念"><a href="#NIO中缓冲区-Buffer-的概念" class="headerlink" title="NIO中缓冲区(Buffer)的概念"></a>NIO中缓冲区(Buffer)的概念</h4><p>Java NIO中的Buffer用于和NIO通道进行交互，实质上是一块用于读取和写入数据的内存，它有固定的大小，通过allocate设置缓冲区的大小。</p>
-<blockquote>
-<p><a href="http://ifeve.com/buffers/#cap-pos-limit" target="_blank" rel="noopener">缓冲区的三个参数</a>：</p>
-<ul>
-<li>position ： 当前指针位置</li>
-<li>limit : 当前缓冲区已有数据的大小（首先要打开读缓冲区，否则limit为缓冲区固定大小）</li>
-<li>capacity : 缓冲区最大容量。</li>
-</ul>
-</blockquote>
-<p><img src="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png" alt="buffer读写模式"></p>
-<p>Buffer拥有基本上所有JAVA 基本数据类型的子类：ByteBuffer、CharBuffer、ShortBuffer、IntBuffer、LongBuffer、FloatBuffer、DoubleBuffer。</p>
-<h4 id="ByteBuffer操作实例"><a href="#ByteBuffer操作实例" class="headerlink" title="ByteBuffer操作实例"></a>ByteBuffer操作实例</h4><p>要进行缓冲区操作，首先要使用Buffer的allocate进行内存分配。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//分配缓冲区内存</span></span><br><span class="line">		ByteBuffer buf = ByteBuffer.allocate(<span class="number">1024</span>);</span><br></pre></td></tr></table></figure>
-
-<p>打印三个参数的值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"-----缓冲区分配成功-----"</span>);</span><br><span class="line">System.out.println(<span class="string">"position:"</span>+buf.position());</span><br><span class="line">System.out.println(<span class="string">"limit:"</span>+buf.limit());</span><br><span class="line">System.out.println(<span class="string">"capacity:"</span>+buf.capacity());</span><br></pre></td></tr></table></figure>
-
-<p>运行结果为：</p>
-<p>—–缓冲区分配成功—–<br>position:0<br>limit:1024<br>capacity:1024</p>
-<p>使用put方法将数据写入缓冲区。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buf.put(<span class="keyword">new</span> String(<span class="string">"helloworld"</span>).getBytes());</span><br></pre></td></tr></table></figure>
-
-<p>运行结果为：</p>
-<p>—–写10个字节到缓冲区—–<br>position:10<br>limit:1024<br>capacity:1024</p>
-<blockquote>
-<p>​        对比可以看到，在写模式下，Buffer的limit表示你最多能往Buffer里写多少数据。 写模式下，limit等于Buffer的capacity。</p>
-</blockquote>
-<p>使用filp方法读取缓冲区的数据</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buf.filp();</span><br></pre></td></tr></table></figure>
-
-<p>运行结果为</p>
-<p>—–读缓冲区—–<br>position:0<br>limit:10<br>capacity:1024</p>
-<p>开启读之后，可以通过Buffer的get方法将数据读入到字节数组</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] datas = <span class="keyword">new</span> <span class="keyword">byte</span>[buf.limit()];</span><br><span class="line">buf.get(datas);</span><br><span class="line">System.out.println(<span class="string">"获取到的数据："</span>+<span class="keyword">new</span> String(datas,<span class="number">0</span>,datas.length));</span><br></pre></td></tr></table></figure>
-
-<p>运行结果为：</p>
-<p>获取到的数据：helloworld<br>position:10<br>limit:10<br>capacity:1024</p>
-<blockquote>
-<p>​       当切换Buffer到读模式时， limit表示你最多能读到多少数据。因此，当切换Buffer到读模式时，limit会被设置成写模式下的position值。换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是position），当使用get方法读出数据时，position的值为读出的数据长度。</p>
-</blockquote>
-<p>开启重复读。使用rewind方法开启重复读后，position的值会重新设为读之前的位置。该方法效果等同于再次调用flip方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buf.rewind();</span><br></pre></td></tr></table></figure>
-
-<p>运行结果为：</p>
-<p>—–开启重复读—–<br>position:0<br>limit:10<br>capacity:1024</p>
-<p>清空缓冲区。一旦读完Buffer中的数据，需要让Buffer准备好再次被写入。可以通过clear()方法来完成。</p>
-<blockquote>
-<p>如果调用的是clear()方法，position将被设回0，limit被设置成 capacity的值。换句话说，Buffer 被清空了。<strong>Buffer中的数据并未清除</strong>，只是这些标记告诉我们可以从哪里开始往Buffer里写数据。</p>
-<p>如果Buffer中有一些未读的数据，调用clear()方法，数据将“被遗忘”，意味着不再有任何标记会告诉你哪些数据被读过，哪些还没有。</p>
-</blockquote>
-<p>Mark标记的使用。使用mark方法对缓冲区进行标记后，调用reset方法会使position返回到mark时的位置。</p>
-<h4 id="直接缓冲区与非直接缓冲区"><a href="#直接缓冲区与非直接缓冲区" class="headerlink" title="直接缓冲区与非直接缓冲区"></a>直接缓冲区与非直接缓冲区</h4><p>在NIO中，缓冲区Buffer分为直接缓冲区和非直接缓冲区。</p>
-<blockquote>
-<p>非直接缓冲区：JAVA应用向JVM虚拟机发送读取指令，虚拟机中的用户空间缓存暂存命令并通知PC从内存中读取数据。读取数据完成后拷贝到JVM用户空间并写回给应用。通过allocate方法在JVM建立缓冲区。</p>
-<p>直接缓冲区：JVM通过<strong>物理内存映射文件</strong>直接调用和内存中的数据，并返回给应用。通过allocateDirect分配直接缓冲区，将缓冲区建立在物理内存中，可以提高效率。</p>
-</blockquote>
-<ul>
-<li><input disabled type="checkbox"> <img src="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235823993-1417525264.png" alt="非直接缓冲区"></li>
-</ul>
-<p><img src="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235939664-204697244.png" alt="直接缓冲区"></p>
-<h4 id="NIO中通道-Channel-的概念"><a href="#NIO中通道-Channel-的概念" class="headerlink" title="NIO中通道(Channel)的概念"></a>NIO中通道(Channel)的概念</h4><p>通道表示打开到IO设备的连接。在NIO系统中，通道负责传输；缓冲区负责存储。在JAVA NIO中，通道由java.nio.channels包定义。 </p>
-<p>Java NIO中最重要的通道的实现：</p>
-<ul>
-<li>FileChannel</li>
-<li>DatagramChannel</li>
-<li>SocketChannel</li>
-<li>ServerSocketChannel</li>
-</ul>
-<h4 id="基于通道原理进行文件复制"><a href="#基于通道原理进行文件复制" class="headerlink" title="基于通道原理进行文件复制"></a>基于通道原理进行文件复制</h4><h6 id="直接缓冲区实现："><a href="#直接缓冲区实现：" class="headerlink" title="直接缓冲区实现："></a>直接缓冲区实现：</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		<span class="comment">// 直接缓冲区</span></span><br><span class="line">		FileChannel inChannel = FileChannel.open(Paths.get(<span class="string">"1.mp4"</span>), </span><br><span class="line">				StandardOpenOption.READ);</span><br><span class="line">		</span><br><span class="line">		FileChannel outChannel = FileChannel.open(Paths.get(<span class="string">"2.mp4"</span>), </span><br><span class="line">				StandardOpenOption.READ,StandardOpenOption.WRITE,StandardOpenOption.CREATE);	</span><br><span class="line">		<span class="comment">//映射文件</span></span><br><span class="line">		MappedByteBuffer inMap = inChannel.map(MapMode.READ_ONLY, <span class="number">0</span>, inChannel.size());</span><br><span class="line">		MappedByteBuffer outMap = outChannel.map(MapMode.READ_WRITE, <span class="number">0</span>, inChannel.size());</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">byte</span>[] datas = <span class="keyword">new</span> <span class="keyword">byte</span>[inMap.limit()];</span><br><span class="line">		</span><br><span class="line">		inMap.get(datas);</span><br><span class="line">		outMap.put(datas);</span><br><span class="line">		outMap.clear();</span><br><span class="line">		</span><br><span class="line">		outChannel.close();</span><br><span class="line">		inChannel.close();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.println(<span class="string">"使用直接缓冲区复制完毕，耗时："</span>+(end-start));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>非直接缓冲区实现：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		<span class="comment">//非直接缓冲区,使用新增方法getChannel，不执行多态。</span></span><br><span class="line">		FileInputStream is = <span class="keyword">new</span> FileInputStream(<span class="string">"1.mp4"</span>);</span><br><span class="line">		FileOutputStream os = <span class="keyword">new</span> FileOutputStream(<span class="string">"3.mp4"</span>);</span><br><span class="line">		</span><br><span class="line">		FileChannel inChannel = is.getChannel();</span><br><span class="line">		FileChannel outChannel = os.getChannel();</span><br><span class="line">		</span><br><span class="line">		ByteBuffer buf = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">while</span>(inChannel.read(buf)!=-<span class="number">1</span>) &#123;</span><br><span class="line">			buf.flip();</span><br><span class="line">			outChannel.write(buf);</span><br><span class="line">			buf.clear();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		outChannel.close();</span><br><span class="line">		inChannel.close();</span><br><span class="line">		os.close();</span><br><span class="line">		is.close();</span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.println(<span class="string">"使用非直接缓冲区复制完毕，耗时："</span>+(end-start));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>二者的运行结果分别为：</p>
-<p>使用直接缓冲区复制完毕，耗时：39</p>
-<p>使用非直接缓冲区复制完毕，耗时：437</p>
-<blockquote>
-<p>可以看到，由于直接缓冲区使用物理内存映射文件，减少了Java虚拟机对内存的拷贝（以及从JVM进行的拷贝），大大提高了程序的效率。</p>
-</blockquote>
-<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><blockquote>
-<p><a href="https://www.cnblogs.com/androidsuperman/p/7083049.html" target="_blank" rel="noopener">https://www.cnblogs.com/androidsuperman/p/7083049.html</a></p>
-<p><a href="https://www.bilibili.com/video/av33995706/" target="_blank" rel="noopener">https://www.bilibili.com/video/av33995706/</a></p>
-<p><a href="http://ifeve.com/channels/" target="_blank" rel="noopener">http://ifeve.com/channels/</a></p>
-</blockquote>
-
+        
+          <a class="article-more-a" href="/2019/07/13/JAVA-NIO初步/#more">more >></a>
+        
       
 
       
@@ -360,74 +254,17 @@
   	<time datetime="2019-07-13T10:19:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-13</time>
 </a>
         
+		
+		
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="JAVA-多线程"><a href="#JAVA-多线程" class="headerlink" title="JAVA 多线程"></a>JAVA 多线程</h2><p>多线程以一种更小的资源开销执行多项任务,JAVA内部支持多线程。</p>
-<blockquote>
-<p>线程：一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。</p>
-<p>进程：一个进程包括由操作系统分配的内存空间，包含一个或多个线程。一个线程不能独立的存在，它必须是进程的一部分。一个进程一直运行，直到所有的非守护线程都结束运行后才能结束。</p>
-</blockquote>
-<p>多线程编程的目标：使计算机充分利用CPU资源进行工作。</p>
-<h4 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h4><p>是指线程的动态执行过程。</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/01/java-thread.jpg" alt="线程的生命周期"></p>
-<h4 id="创建线程的三种方式"><a href="#创建线程的三种方式" class="headerlink" title="创建线程的三种方式"></a>创建线程的三种方式</h4><ol>
-<li>继承Thread类并重写run()方法</li>
-<li>实现Runnable接口并重写run()方法</li>
-<li>通过 Callable 和 Future 创建线程</li>
-</ol>
-<p>继承Thread类：</p>
-<blockquote>
-<p>创建一个线程的第二种方法是创建一个新的类，该类继承 Thread 类，然后创建一个该类的实例。</p>
-<p>继承类必须重写 run() 方法，该方法是新线程的入口点。它也必须调用 start() 方法才能执行。</p>
-<p>该方法尽管被列为一种多线程实现方式，但是本质上也是实现了 Runnable 接口的一个实例。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Thread t;</span><br><span class="line">	<span class="keyword">private</span> String Threadname;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ThreadDemo</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Creating Thread"</span>+name+<span class="string">"..."</span>);</span><br><span class="line">		<span class="keyword">this</span>.Threadname = name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" starting..."</span>);</span><br><span class="line">		<span class="keyword">if</span>(t==<span class="keyword">null</span>) &#123;</span><br><span class="line">			t = <span class="keyword">new</span> Thread(<span class="keyword">this</span>,Threadname);</span><br><span class="line">			t.start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123; </span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" running"</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line">			System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">"--&gt;"</span>+i);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadTest</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ThreadDemo t1 = <span class="keyword">new</span> ThreadDemo(<span class="string">"first"</span>);t1.start();</span><br><span class="line">		ThreadDemo t2 = <span class="keyword">new</span> ThreadDemo(<span class="string">"second"</span>);t2.start();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>实现Runnable接口:</p>
-<blockquote>
-<p>创建一个实现Runnable接口的实现类；根据需求重写run()方法；最后调用start()方法使线程进入就绪态。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RunnableDemo</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Thread t;</span><br><span class="line">	<span class="keyword">private</span> String Threadname;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">RunnableDemo</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" creating"</span>);</span><br><span class="line">		<span class="keyword">this</span>.Threadname = name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" running..."</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line">			System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">"--&gt;"</span>+i);</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" starting..."</span>);</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">null</span>==t) &#123;</span><br><span class="line">			t= <span class="keyword">new</span> Thread(<span class="keyword">this</span>,Threadname);</span><br><span class="line">			t.start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RunnableTest</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		RunnableDemo r1 = <span class="keyword">new</span> RunnableDemo(<span class="string">"first"</span>);r1.start();</span><br><span class="line">		RunnableDemo r2 = <span class="keyword">new</span> RunnableDemo(<span class="string">"second"</span>);r2.start();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line"></span><br><span class="line">			System.out.println(<span class="string">"Thread main--&gt;"</span>+i);</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>实现Callable接口</p>
-<blockquote>
-<ul>
-<li><ol>
-<li>创建 Callable 接口的实现类，并实现 call() 方法，该 call() 方法将作为线程执行体，并且有返回值。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>创建 Callable 实现类的实例，使用 FutureTask 类来包装 Callable 对象，该 FutureTask 对象封装了该 Callable 对象的 call() 方法的返回值。</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>使用 FutureTask 对象作为 Thread 对象的 target 创建并启动新线程。</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>调用 FutureTask 对象的 get() 方法来获得子线程执行结束后的返回值。</li>
-</ol>
-</li>
-</ul>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallableThreadTest</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt;</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		CallableThreadTest t = <span class="keyword">new</span> CallableThreadTest();</span><br><span class="line">		FutureTask ft = <span class="keyword">new</span> FutureTask(t);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName()+<span class="string">"的循环变量i的值"</span>+i);</span><br><span class="line">			<span class="keyword">if</span>(i==<span class="number">10</span>) &#123;</span><br><span class="line">				<span class="keyword">new</span> Thread(ft,<span class="string">"有返回值的线程"</span>).start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"子线程的返回值为"</span>+ft.get());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName()+<span class="string">" "</span>+i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="停止线程"><a href="#停止线程" class="headerlink" title="停止线程"></a>停止线程</h4><blockquote>
-<ol>
-<li>自然死亡：线程体正常执行完毕</li>
-<li>外部干涉：</li>
-</ol>
-<p>线程类中定义线程体使用的标识；线程体使用该标识；提供对外方法改变该标识；外部根据条件改变该方法。</p>
-</blockquote>
-<h4 id="阻塞"><a href="#阻塞" class="headerlink" title="阻塞"></a>阻塞</h4><p>join():阻塞调用线程，直到该线程结束后，调用线程才能继续执行。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JoinDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread running..."</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">500</span>;i++) &#123;</span><br><span class="line">			System.out.println(<span class="string">"Thread test--&gt;"</span>+i);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		JoinDemo demo = <span class="keyword">new</span> JoinDemo();</span><br><span class="line">		Thread t = <span class="keyword">new</span> Thread(demo);</span><br><span class="line">		t.start();</span><br><span class="line">		System.out.println(<span class="string">"main running..."</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">500</span>;i++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="number">50</span>==i) t.join();</span><br><span class="line">			System.out.println(<span class="string">"Thread main--&gt;"</span>+i);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>yeild():阻塞调用该方法的线程。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Thread t;</span><br><span class="line">	<span class="keyword">private</span> String Threadname;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">YieldDemo</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Creating Thread"</span>+name+<span class="string">"..."</span>);</span><br><span class="line">		<span class="keyword">this</span>.Threadname = name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" starting..."</span>);</span><br><span class="line">		<span class="keyword">if</span>(t==<span class="keyword">null</span>) &#123;</span><br><span class="line">			t = <span class="keyword">new</span> Thread(<span class="keyword">this</span>,Threadname);</span><br><span class="line">			t.start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123; </span><br><span class="line">		System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">" running"</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line">			System.out.println(<span class="string">"Thread "</span>+Threadname+<span class="string">"--&gt;"</span>+i);</span><br><span class="line">			<span class="keyword">if</span>(i==<span class="number">10</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					t.join();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YeildTest</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		YieldDemo t1 = <span class="keyword">new</span> YieldDemo(<span class="string">"first"</span>);t1.start();</span><br><span class="line">		YieldDemo t2 = <span class="keyword">new</span> YieldDemo(<span class="string">"second"</span>);t2.start();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) &#123;</span><br><span class="line">			System.out.println(<span class="string">"Thread main--&gt;"</span>+i);</span><br><span class="line">			t1.yield();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+        
+          <a class="article-more-a" href="/2019/07/13/JAVA-多线程基础/#more">more >></a>
+        
       
 
       
@@ -500,14 +337,17 @@
   	<time datetime="2019-07-12T02:56:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-12</time>
 </a>
         
+		
+		
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="https://baike.baidu.com/item/markdown/3245829?fr=aladdin" target="_blank" rel="noopener">Markdown</a>是一种普通文本编辑器编写的标记语言。刚发现这一语言有一种相见恨晚的感觉，这么简洁优雅高逼格，而且最重要的是超级容易上手，我只看了篇相关的语法博客就感觉完全够用了。这个工具语言最大的好处就是所见即所得，让人能够基本上忽略写作时的排版问题，而更加关注内容本身。</p>
-<p>Typora 则是一款十分流行的Markdown编辑软件，在知乎上发现并不只是经常使用Markdown语言记事的程序员，很多其他领域的大牛也在使用Typora记笔记和进行写作。</p>
-<p>具体Markdown的语法参考大牛的博客：<a href="https://blog.csdn.net/tracy1talent/article/details/82847121" target="_blank" rel="noopener">https://blog.csdn.net/tracy1talent/article/details/82847121</a></p>
-
+        
+          <a class="article-more-a" href="/2019/07/12/diary-2019-7-12/#more">more >></a>
+        
       
 
       
@@ -580,15 +420,17 @@
   	<time datetime="2019-07-11T03:56:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-11</time>
 </a>
         
+		
+		
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <pre><code>前些天，初中班主任突然从微信上联系我，让我给她一个学生辅导功课。当时心想，大抵是班上那种令人头疼的熊孩子吧。于是，一个厌恶学习，吊儿郎当，逃课上网之类的恶习难改云云的初中小屁孩形象浮现在脑海中。对于这种麻烦事，我以前一向都是选择能躲多远就躲多远，后来头脑一热，还是答应了，毕竟毕业后在家呆着也着实无聊。
-
-和那小孩相处了几天后，发现还是一个挺可爱的小伙子。有上进心、有想法、最重要的是能够很主动地配合我进行学习，这让我心里松了口气——呼，不用费太多口舌进行思想教育了。于是，每天辅导这小伙子做做题，顺便扯扯皮，几个小时很快就收工了。
-&lt;!--more--&gt;
-我不是一个特别会与人相处的人，基本上很难迅速地融入到一个陌生的环境，这几乎每个身边我熟悉的人都是这样评价我的。记得毕业离开宿舍前，宿舍一好友不舍地拍着我的肩膀，郑重其事地对我说：“好好照顾自己，到武汉去太孤单，记得常联系。”当时想，是啊，又要到一个陌生的城市，不知道又要过多久才能适应一个新的环境了。然而，让我有点吃惊的是，前几天下课后，这小孩和我说：“我本来还以为你很难相处呢。”我尴尬一笑，心里却在想，呵，可不是吗，我也以为我自己很难相处呢。后来仔细想想，我在辅导他学习，何尝不是自己学习呢。大学许多老师都曾给我们强调终生学习的思想，我想，大抵是这样，自己有心，查漏补缺而已。。。</code></pre>
+        <pre><code>前些天，初中班主任突然从微信上联系我，让我给她一个学生辅导功课。当时心想，大抵是班上那种令人头疼的熊孩子吧。于是，一个厌恶学习，吊儿郎当，逃课上网之类的恶习难改云云的初中小屁孩形象浮现在脑海中。对于这种麻烦事，我以前一向都是选择能躲多远就躲多远，后来头脑一热，还是答应了，毕竟毕业后在家呆着也着实无聊。</code></pre>
+        
+          <a class="article-more-a" href="/2019/07/11/diary-2019-7-11/#more">more >></a>
+        
       
 
       
@@ -657,6 +499,9 @@
   	<time datetime="2019-07-10T03:56:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-10</time>
 </a>
         
+		
+		
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
@@ -665,65 +510,9 @@
 <p>   前些天想学习JAVA的一个异步事件驱动的网络应用框架<a href="https://netty.io" target="_blank" rel="noopener">Netty</a>，发现有一些相关JAVA基础知识忘的差不多了，上个星期恶补了一下JAVA IO流的知识，在此做一个总结。</p>
 </blockquote>
 <hr>
-<h2 id="File类"><a href="#File类" class="headerlink" title="File类"></a>File类</h2><blockquote>
-<p>   文件IO的操作源类。常见的数据源有文件、网络、计算机内存等。File类既可以表示文件也可以表示文件夹，创建好的File类可能不存在。具体File类参考API文档：<a href="https://docs.oracle.com/javase/8/docs/api/" target="_blank" rel="noopener">JAVA API在线文档</a></p>
-</blockquote>
-<hr>
-<h4 id="通过File类进行文件夹的遍历"><a href="#通过File类进行文件夹的遍历" class="headerlink" title="通过File类进行文件夹的遍历"></a>通过File类进行文件夹的遍历</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printFileName</span><span class="params">(File src,<span class="keyword">int</span> deep)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">null</span>==src||!src.exists()) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>(src.isDirectory()) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;deep;i++)</span><br><span class="line">				System.out.print(<span class="string">"-"</span>);</span><br><span class="line">			System.out.println(src.getName());</span><br><span class="line">			File[] filenames = src.listFiles();</span><br><span class="line">			<span class="keyword">for</span> (File f : filenames) &#123;</span><br><span class="line">				printFileName(f,deep+<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;deep;i++)</span><br><span class="line">				System.out.print(<span class="string">"-"</span>);</span><br><span class="line">			System.out.println(src.getName());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="IO的标准步骤"><a href="#IO的标准步骤" class="headerlink" title="IO的标准步骤"></a>IO的标准步骤</h2><h4 id="四大抽象类"><a href="#四大抽象类" class="headerlink" title="四大抽象类"></a>四大抽象类</h4><blockquote>
-<ul>
-<li>InputStream       </li>
-<li>OutputStream<ul>
-<li>Reader</li>
-<li>Writer<br>前两者为字节流，能够处理文本、视频、音频、图片等各种文件，后两个为字符流，只能处理纯文本数据。</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h4 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h4><blockquote>
-<ol>
-<li>创建源</li>
-<li>选择流</li>
-<li>操作(读写及修饰文件）</li>
-<li>释放资源</li>
-</ol>
-</blockquote>
-<h4 id="相关实践：文件的拷贝"><a href="#相关实践：文件的拷贝" class="headerlink" title="相关实践：文件的拷贝"></a>相关实践：文件的拷贝</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyFile</span><span class="params">(InputStream is,OutputStream os)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">int</span> len = -<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">byte</span>[] flush = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">			<span class="keyword">while</span>((len = is.read(flush))!=-<span class="number">1</span>) &#123;</span><br><span class="line">				os.write(flush);</span><br><span class="line">			&#125;</span><br><span class="line">			os.flush();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(os!=<span class="keyword">null</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					os.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">if</span>(is!=<span class="keyword">null</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					is.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>通过上述copeFile方法的封装，我们可以很容易实现文件到文件（FileInputStream &amp; FileOutputStream)、文件到字节数组（FileInputStream &amp; ByteArrayInputStream)、字节数组到文件的拷贝（ByteArrayInputStream &amp; FileOutputStream)</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//文件到文件</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		InputStream is = <span class="keyword">new</span> FileInputStream(<span class="string">"list/3.jpg"</span>);</span><br><span class="line">		OutputStream os = <span class="keyword">new</span> FileOutputStream(<span class="string">"dest.jpg"</span>);</span><br><span class="line">		copyFile(is,os);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (FileNotFoundException e1) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e1.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">byte</span>[] datas = <span class="keyword">null</span>;</span><br><span class="line">	<span class="comment">//文件到字节数组</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		InputStream is = <span class="keyword">new</span> FileInputStream(<span class="string">"list/3.jpg"</span>);</span><br><span class="line">		ByteArrayOutputStream os = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">		copyFile(is,os);</span><br><span class="line">		datas = os.toByteArray();</span><br><span class="line">		System.out.println(datas.length);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//字节数组到文件</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		InputStream is = <span class="keyword">new</span> ByteArrayInputStream(datas);</span><br><span class="line">		OutputStream os = <span class="keyword">new</span> FileOutputStream(<span class="string">"dest.jpg"</span>);</span><br><span class="line">		copyFile(is,os);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="装饰流"><a href="#装饰流" class="headerlink" title="装饰流"></a>装饰流</h2><p>为了提高IO操作的便捷性并提升其性能，我们可以对IO处理流进行装饰。<br><a href="https://www.runoob.com/design-pattern/decorator-pattern.html" target="_blank" rel="noopener">装饰器设计模式</a>：其目的就是增加和改变类的方法。个人理解其操作步骤就是首先构造一个装饰器实现装饰组件方法，再让被装饰对象继承装饰器并重写其方法。</p>
-<h4 id="缓冲流"><a href="#缓冲流" class="headerlink" title="缓冲流"></a>缓冲流</h4><p>缓冲流主要用于提升IO性能，本身并不具有IO功能。若直接进行IO操作，读入一个字节的数据就要写出一个字节数据——频繁的磁盘IO是性能降低的主要原因。加入缓冲流后，可以在读入一定的缓冲大小后再写出。<br>字节缓冲流（BufferedInputStream&amp;BufferedOutputStream)重写文件拷贝：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		File src = <span class="keyword">new</span> File(<span class="string">"list/3.jpg"</span>);</span><br><span class="line">		File dest = <span class="keyword">new</span> File(<span class="string">"dest.jpg"</span>);</span><br><span class="line">		InputStream is = <span class="keyword">null</span>;</span><br><span class="line">		BufferedOutputStream os = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			is = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(src));</span><br><span class="line">			os = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(dest));</span><br><span class="line">			<span class="keyword">int</span> len = -<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">byte</span>[] flush = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">			<span class="keyword">while</span>((len = is.read(flush))!=-<span class="number">1</span>) &#123;</span><br><span class="line">				os.write(flush);</span><br><span class="line">				os.flush();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(os!=<span class="keyword">null</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					os.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">if</span>(is!=<span class="keyword">null</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					is.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>字符缓冲流（BufferedReader&amp;BufferedWriter)重写文件拷贝：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		File src = <span class="keyword">new</span> File(<span class="string">"test.txt"</span>);</span><br><span class="line">		File dest = <span class="keyword">new</span> File(<span class="string">"list/cp-test.txt"</span>);</span><br><span class="line">		BufferedReader reader = <span class="keyword">null</span>;</span><br><span class="line">		BufferedWriter writer = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(src));</span><br><span class="line">			writer = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(dest));</span><br><span class="line">			String line;</span><br><span class="line">			<span class="keyword">while</span>((line = reader.readLine())!=<span class="keyword">null</span>) &#123;</span><br><span class="line">				writer.write(line);</span><br><span class="line">				writer.newLine();</span><br><span class="line">				writer.flush();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(writer!=<span class="keyword">null</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					writer.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">if</span>(reader!=<span class="keyword">null</span>)</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					reader.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="转换流（InputStreamReader-amp-OutputStreamWriter"><a href="#转换流（InputStreamReader-amp-OutputStreamWriter" class="headerlink" title="转换流（InputStreamReader&amp;OutputStreamWriter)"></a>转换流（InputStreamReader&amp;OutputStreamWriter)</h4><p>作用一：以字符流的形式操作字节流（纯文本）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</span><br><span class="line">	BufferedWriter writer = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(System.out));</span><br><span class="line">	String mes = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">while</span>(!mes.equals(<span class="string">"exit"</span>)) &#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			mes = reader.readLine();</span><br><span class="line">			writer.write(mes);</span><br><span class="line">			writer.newLine();</span><br><span class="line">			writer.flush();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>作用二：指定字符集</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">	BufferedReader reader = <span class="keyword">null</span>;</span><br><span class="line">	BufferedWriter writer = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		 </span><br><span class="line">		reader = <span class="keyword">new</span> BufferedReader(</span><br><span class="line">				<span class="keyword">new</span> InputStreamReader(</span><br><span class="line">					<span class="keyword">new</span> URL(<span class="string">"http://hadoop.apache.org/"</span>).openStream(),<span class="string">"UTF-8"</span>));</span><br><span class="line">		writer = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(<span class="string">"list/hadoop.txt"</span>));</span><br><span class="line">		String line = <span class="string">""</span>;</span><br><span class="line">		<span class="keyword">while</span>((line = reader.readLine())!=<span class="keyword">null</span>) &#123;</span><br><span class="line">			writer.write(line);</span><br><span class="line">			writer.newLine();</span><br><span class="line">			writer.flush();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>(writer!=<span class="keyword">null</span>) writer.close();</span><br><span class="line">		<span class="keyword">if</span>(reader!=<span class="keyword">null</span>) reader.close();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据流（DataInputStream-amp-DataOutputStream"><a href="#数据流（DataInputStream-amp-DataOutputStream" class="headerlink" title="数据流（DataInputStream&amp;DataOutputStream)"></a>数据流（DataInputStream&amp;DataOutputStream)</h4><blockquote>
-<p>主要作用是用于处理基本数据类型，同时保留数据以及数据类型。数据流先读取后写出，写出的顺序一定要和读取数据顺序一致</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	<span class="comment">//写出</span></span><br><span class="line">	ByteArrayOutputStream os = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">	DataOutputStream dos = <span class="keyword">new</span> DataOutputStream(os);</span><br><span class="line">	<span class="comment">//擦做数据类型加数据</span></span><br><span class="line">	dos.writeUTF(<span class="string">"你好世界"</span>);</span><br><span class="line">	dos.writeBoolean(<span class="keyword">false</span>);</span><br><span class="line">	dos.writeInt(<span class="number">100</span>);</span><br><span class="line">	dos.writeChar(<span class="string">'z'</span>);</span><br><span class="line">	dos.flush();</span><br><span class="line">	<span class="keyword">byte</span>[] datas = os.toByteArray();</span><br><span class="line">	DataInputStream dis = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> ByteArrayInputStream(datas));</span><br><span class="line">	<span class="comment">//注意顺序</span></span><br><span class="line">	String str = dis.readUTF();</span><br><span class="line">	Boolean f = dis.readBoolean();</span><br><span class="line">	<span class="keyword">int</span> age = dis.readInt();</span><br><span class="line">	<span class="keyword">char</span> c = dis.readChar();</span><br><span class="line">	System.out.println(str+f+age+c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="对象流-ObjectInputDtream-amp-ObjectOutputStream"><a href="#对象流-ObjectInputDtream-amp-ObjectOutputStream" class="headerlink" title="对象流(ObjectInputDtream&amp;ObjectOutputStream)"></a>对象流(ObjectInputDtream&amp;ObjectOutputStream)</h4><blockquote>
-<p>用法与数据流类似，除了能操作基本数据类型以外，还能操作对象。ObjectInputDtream和ObjectOutputStream又被称为反序列化和序列化操作。不是所有的对象都支持序列化，必须实现Serializable接口。</p>
-</blockquote>
-<h4 id="打印流（PrintStream"><a href="#打印流（PrintStream" class="headerlink" title="打印流（PrintStream)"></a>打印流（PrintStream)</h4><blockquote>
-<p>简化System.out,构造器可以加文件、结点流等。</p>
-</blockquote>
-<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><blockquote>
-<p>[1] <a href="https://blog.csdn.net/alyson_jm/article/details/81433648" target="_blank" rel="noopener">https://blog.csdn.net/alyson_jm/article/details/81433648</a><br>[2] <a href="https://www.bjsxt.com/down/8707.html" target="_blank" rel="noopener">https://www.bjsxt.com/down/8707.html</a></p>
-</blockquote>
-
+        
+          <a class="article-more-a" href="/2019/07/10/JAVA-IO学习记录/#more">more >></a>
+        
       
 
       
@@ -786,18 +575,26 @@
           </div>
         </div>
       </div>
-      <footer id="footer">
+      <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<footer id="footer">
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
     		&copy; 2019 Sywang
     	</div>
+		  <span id="busuanzi_container_site_uv"> 
+		本站访客数<span id="busuanzi_value_site_uv"></span>人次
+		</span>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
       	</div>
     </div>
   </div>
+
 </footer>
+
+
+
     </div>
     <script>
 	var yiliaConfig = {

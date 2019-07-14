@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>JAVA NIO初步 | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
+  <meta name="description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。">
 <meta name="keywords" content="java,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JAVA NIO初步">
 <meta property="og:url" content="http://yoursite.com/2019/07/13/JAVA-NIO初步/index.html">
 <meta property="og:site_name" content="Sywang的博客">
-<meta property="og:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
+<meta property="og:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235823993-1417525264.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235939664-204697244.png">
-<meta property="og:updated_time" content="2019-07-14T04:01:03.431Z">
+<meta property="og:updated_time" content="2019-07-14T04:20:50.921Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA NIO初步">
-<meta name="twitter:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
+<meta name="twitter:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。">
 <meta name="twitter:image" content="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png">
   
     <link rel="alternative" href="/atom.xml" title="Sywang的博客" type="application/atom+xml">
@@ -66,7 +66,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/photos">相册</a></li>
+				<li><a href="/photos/">相册</a></li>
 	        
 			</ul>
 		</nav>
@@ -144,7 +144,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/photos">相册</a></li>
+					<li style="width: 50%"><a href="/photos/">相册</a></li>
 		        
 				</ul>
 			</nav>
@@ -175,11 +175,20 @@
   	<time datetime="2019-07-13T10:23:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-13</time>
 </a>
         
+		
+		
+        <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
         <p>Netty网络通讯框架的底层都是基于NIO实现的连接。</p>
+<a id="more"></a>
+
 <h2 id="NIO-NonBlock-IO"><a href="#NIO-NonBlock-IO" class="headerlink" title="NIO(NonBlock IO)"></a>NIO(NonBlock IO)</h2><h4 id="阻塞-Block-与非阻塞-Nonblock-的概念"><a href="#阻塞-Block-与非阻塞-Nonblock-的概念" class="headerlink" title="阻塞(Block)与非阻塞(Nonblock)的概念"></a>阻塞(Block)与非阻塞(Nonblock)的概念</h4><p>阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。</p>
 <p>阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。</p>
 <p>非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。</p>
@@ -312,6 +321,11 @@
                 </span>
               </span>
             </span>
+			
+			<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
           </div>
           </a>
         </div>
@@ -440,18 +454,26 @@
           </div>
         </div>
       </div>
-      <footer id="footer">
+      <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<footer id="footer">
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
     		&copy; 2019 Sywang
     	</div>
+		  <span id="busuanzi_container_site_uv"> 
+		本站访客数<span id="busuanzi_value_site_uv"></span>人次
+		</span>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
       	</div>
     </div>
   </div>
+
 </footer>
+
+
+
     </div>
     <script>
 	var yiliaConfig = {
