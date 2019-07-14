@@ -9,6 +9,7 @@
   <title>JAVA NIO初步 | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
+<meta name="keywords" content="java,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JAVA NIO初步">
 <meta property="og:url" content="http://yoursite.com/2019/07/13/JAVA-NIO初步/index.html">
@@ -18,7 +19,7 @@
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235823993-1417525264.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235939664-204697244.png">
-<meta property="og:updated_time" content="2019-07-13T11:52:21.547Z">
+<meta property="og:updated_time" content="2019-07-14T04:01:03.431Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA NIO初步">
 <meta name="twitter:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。 NIO(NonBlock IO)阻塞(Block)与非阻塞(Nonblock)的概念阻塞和非阻塞是线程在读写数据时，线程中的数据是否处于就绪状态时线程的处理方式。 阻塞：当线程读取数据时，需要等待数据缓冲区中的数据准备好，否则不能进行接下来的工作。 非阻塞：当线程读取数据时，若数据缓冲区中的数据未能准备好，线程直接返回。  ​">
@@ -319,6 +320,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -501,6 +517,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">心得</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
