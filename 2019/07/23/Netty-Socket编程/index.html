@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 笔记 | Sywang的博客</title>
+  <title>Netty Socket编程 | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Sywang&apos;s blog！Have a good time.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Sywang的博客">
-<meta property="og:url" content="http://yoursite.com/tags/笔记/index.html">
+  <meta name="description" content="Netty Socket编程基于Netty Socket通信过程，编写代码主要实现两个功能：  客户端之间通信，实现消息广播，并附带人称。 客端端建立连接后，会通知其他在线客户端。">
+<meta name="keywords" content="java,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty Socket编程">
+<meta property="og:url" content="http://yoursite.com/2019/07/23/Netty-Socket编程/index.html">
 <meta property="og:site_name" content="Sywang的博客">
-<meta property="og:description" content="Welcome to Sywang&apos;s blog！Have a good time.">
+<meta property="og:description" content="Netty Socket编程基于Netty Socket通信过程，编写代码主要实现两个功能：  客户端之间通信，实现消息广播，并附带人称。 客端端建立连接后，会通知其他在线客户端。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-23T03:10:46.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sywang的博客">
-<meta name="twitter:description" content="Welcome to Sywang&apos;s blog！Have a good time.">
+<meta name="twitter:title" content="Netty Socket编程">
+<meta name="twitter:description" content="Netty Socket编程基于Netty Socket通信过程，编写代码主要实现两个功能：  客户端之间通信，实现消息广播，并附带人称。 客端端建立连接后，会通知其他在线客户端。">
   
     <link rel="alternative" href="/atom.xml" title="Sywang的博客" type="application/atom+xml">
   
@@ -153,36 +155,148 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Netty-Socket编程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Netty Socket编程
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/23/Netty-Socket编程/" class="archive-article-date">
+
+        
+        <a href="/2019/07/23/Netty-Socket编程/" class="archive-article-date">
   	<time datetime="2019-07-23T03:09:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/23/Netty-Socket编程/">Netty Socket编程</a>
-    </h1>
-  
+        
+		
+		
+        <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+        </span>
+    
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Netty-Socket编程"><a href="#Netty-Socket编程" class="headerlink" title="Netty Socket编程"></a>Netty Socket编程</h2><p>基于Netty Socket通信过程，编写代码主要实现两个功能：</p>
+<ul>
+<li>客户端之间通信，实现消息广播，并附带人称。</li>
+<li>客端端建立连接后，会通知其他在线客户端。</li>
+</ul>
+<a id="more"></a>
+
+<blockquote>
+<p> 实现消息广播的原理：channelGroup 会在handlerAdded方法中记录每一个与之连接的channel对象。之后再对每一个channel对象调用WriteAndFlush方法（这里channelGroup中也封装了类似的方法，会在底层遍历其中的每一个channel)。</p>
+</blockquote>
+<p>ChannelGroup中handler的文档注释：</p>
+<blockquote>
+<p>Writes the specified {@code message} to all {@link Channel}s in this group that are matched by the given {@link ChannelMatcher}.</p>
+</blockquote>
+<h4 id="服务端实现："><a href="#服务端实现：" class="headerlink" title="服务端实现："></a>服务端实现：</h4><p>MyChatServer: 模板代码，与之前类似。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">		EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			ServerBootstrap bootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">			bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).</span><br><span class="line">				childHandler(<span class="keyword">new</span> MyChatServerInitializer());</span><br><span class="line">			</span><br><span class="line">			ChannelFuture channelFuture =  bootstrap.bind(<span class="number">8899</span>).sync();</span><br><span class="line">			channelFuture.channel().closeFuture().sync();</span><br><span class="line">		&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">			bossGroup.shutdownGracefully();</span><br><span class="line">			workerGroup.shutdownGracefully();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现初始化类：MyChatServerInitializer，引入DelimiterBasedFrameDecoder解码器，主要作用是对基于分隔符的框架解码。这里的分割符主要是回车换行符。（与LineBasedframeDecoder一样，属于Netty粘包和拆包的方法）与之前类似，该类继承ChannelInitializer类并实现initChannel方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChatServerInitializer</span> <span class="keyword">extends</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//基于Delimiter(分隔符)的解码器</span></span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> DelimiterBasedFrameDecoder(<span class="number">4096</span>, Delimiters.lineDelimiter()));</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> StringDecoder(CharsetUtil.UTF_8));</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> StringEncoder(CharsetUtil.UTF_8));</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> MyChatServerHandler());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现自定义handler类MyChatClientHandler，定义一个channelGroup成员变量以存储多个客户端与服务端建立的channel对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> ChannelGroup channelGroup = <span class="keyword">new</span> DefaultChannelGroup</span><br><span class="line">		(GlobalEventExecutor.INSTANCE);</span><br></pre></td></tr></table></figure>
+
+<p>重写channelRead0方法，实现消息广播；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception &#123;</span><br><span class="line">	Channel channel = ctx.channel();</span><br><span class="line">	</span><br><span class="line">	channelGroup.forEach(ch -&gt; &#123;</span><br><span class="line">		if(channel != ch) &#123;</span><br><span class="line">			ch.writeAndFlush(channel.remoteAddress() + &quot; ：&quot;+ msg+&quot;\n&quot;);</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			ch.writeAndFlush(&quot; 【自己】&quot; + &quot; ：&quot;+ msg+&quot;\n&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重写连接状态方法（handlerAdded、handlerRemoved、channelActive、channelInactive),实现客端端建立连接后，会通知其他在线客户端的功能:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 需求2：客端端建立连接后，会通知其他在线客户端</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//处理连接不发送消息</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handlerAdded</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	Channel channel = ctx.channel();</span><br><span class="line">	<span class="comment">//write 再 add 不必要告诉刚加入channelGroup中的客户端自己。	</span></span><br><span class="line">	channelGroup.writeAndFlush(<span class="string">" 【服务器】 - "</span> + channel.remoteAddress() + <span class="string">" 建立连接\n"</span>);</span><br><span class="line">	</span><br><span class="line">	channelGroup.add(channel);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//连接断掉</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handlerRemoved</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	Channel channel = ctx.channel();	</span><br><span class="line">	channelGroup.writeAndFlush(<span class="string">" 【服务器】 - "</span> + channel.remoteAddress() + <span class="string">" 断开连接\n"</span>);	</span><br><span class="line">	<span class="comment">//Netty会自动移除</span></span><br><span class="line">	<span class="comment">//channelGroup.remove(channel);</span></span><br><span class="line">	System.out.println(channelGroup.size());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//连接处于活动状态</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	Channel channel = ctx.channel();</span><br><span class="line">	System.out.println(channel.remoteAddress() + <span class="string">" 上线"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//连接处于不活动状态</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelInactive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	Channel channel = ctx.channel();</span><br><span class="line">	System.out.println(channel.remoteAddress() + <span class="string">" 下线"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Channel channel = ctx.channel();</span><br><span class="line">       <span class="keyword">if</span>(channel.isActive())ctx.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="客户端实现："><a href="#客户端实现：" class="headerlink" title="客户端实现："></a>客户端实现：</h4><p>客户端主函数类和服务端类似，为了模拟通信功能，使用Java IO实现读取用户从控制台输入的内容：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		EventLoopGroup eventLoopGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">			bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class).</span><br><span class="line">					handler(<span class="keyword">new</span> MyChatClientInitializer());</span><br><span class="line">			</span><br><span class="line">			Channel channel= bootstrap.connect(<span class="string">"localhost"</span>,<span class="number">8899</span>).sync().channel();</span><br><span class="line">			<span class="comment">//channelFuture.channel().closeFuture().sync();</span></span><br><span class="line">			</span><br><span class="line">			<span class="comment">//不断读取用户在控制台上输入的内容</span></span><br><span class="line">			</span><br><span class="line">			BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(;;) &#123;</span><br><span class="line">				channel.writeAndFlush(br.readLine()+<span class="string">"\r\n"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">			eventLoopGroup.shutdownGracefully();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化类与服务端类似：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChatClientInitializer</span> <span class="keyword">extends</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line">		</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> DelimiterBasedFrameDecoder(<span class="number">4096</span>,Delimiters.lineDelimiter()));</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> StringDecoder(CharsetUtil.UTF_8));</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> StringEncoder(CharsetUtil.UTF_8));</span><br><span class="line">		pipeline.addLast(<span class="keyword">new</span> MyChatClientHandler());</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 自定义Handler类主要实现打印客户端收到的消息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChatClientHandler</span> <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, String msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		System.out.println(msg);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>尝试运行，首先启动服务端，然后依次启动三个客户端，运行结果如下：</p>
+<p>客户端1：</p>
+<p>【服务器】 - /127.0.0.1:12127 建立连接<br> 【服务器】 - /127.0.0.1:12184 建立连接<br>我是第一个客户端，大家好<br> 【自己】 ：我是第一个客户端，大家好<br>/127.0.0.1:12127 ：你好，我是第二个客户端</p>
+<p>客户端2：</p>
+<p> 【服务器】 - /127.0.0.1:12184 建立连接<br>/127.0.0.1:12079 ：我是第一个客户端，大家好<br>你好，我是第二个客户端<br> 【自己】 ：你好，我是第二个客户端<br> 【服务器】 - /127.0.0.1:12079 断开连接</p>
+<p>客户端3：</p>
+<p>/127.0.0.1:12079 ：我是第一个客户端，大家好<br>/127.0.0.1:12127 ：你好，我是第二个客户端<br> 【服务器】 - /127.0.0.1:12079 断开连接</p>
+<p>服务端：</p>
+<p>/127.0.0.1:12079 上线<br>/127.0.0.1:12127 上线<br>/127.0.0.1:12184 上线</p>
+<p>/127.0.0.1:12079 下线</p>
+<p>至此，实现了一个简单的群聊功能。</p>
+<p>childhandler (worker) &amp;handler(boss)</p>
+<h2 id="Netty-读写检测机制"><a href="#Netty-读写检测机制" class="headerlink" title="Netty 读写检测机制"></a>Netty 读写检测机制</h2><p>在网络中接收和发送数据都是通过Socket套接字实现，如果当前的套接字已经断开，那么互联的两个节点的通信也会出现问题，那么如何感知节点的活动状态？TCP长连接提供了一种心跳机制：即客户端每隔一段时间向服务端发送一个心跳包通知服务端连接还存在，服务端会依次返回相应的确认信息。如果服务端几分钟内没有收到客户端信息则视客户端断开。</p>
+<p>如果客户端与服务端建立了TCP连接，客服端进入飞行模式后，连接不会断开。handlerRemoved方法没有被调用。————解决：心跳：客户端与服务端建立长连接后，客户端每隔一段时间向服务端发送心跳包，服务端收到后进行返回确认，客户端收到后表示该连接任然存在。</p>
+<p>Netty中使用IdleStateHandler类实现心跳机制，IdleStateHandler主要用来检测远端的连接是否存活，实现了三种心跳的检测：</p>
+<blockquote>
+<ul>
+<li>readerIdleTime：读超时时间</li>
+<li>writerIdleTime：写超时时间</li>
+<li>allIdleTime：所有类型的超时时间</li>
+</ul>
+</blockquote>
+<p>实验DEMO:</p>
+<p>MyServer主函数类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">	EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		ServerBootstrap bootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">		bootstrap.group(bossGroup,workerGroup).channel(NioServerSocketChannel.class)</span><br><span class="line">			.handler(<span class="keyword">new</span> LoggingHandler(LogLevel.INFO))</span><br><span class="line">			.childHandler(<span class="keyword">new</span> MyServerInitializer());</span><br><span class="line">		</span><br><span class="line">		ChannelFuture channelFuture =  bootstrap.bind(<span class="number">8899</span>).sync();</span><br><span class="line">		channelFuture.channel().closeFuture().sync();</span><br><span class="line">	&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">		bossGroup.shutdownGracefully();</span><br><span class="line">		workerGroup.shutdownGracefully();</span><br><span class="line">	&#125;		</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化类，将检测心跳的IdleStateHandler处理器加入管道。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyServerInitializer</span> <span class="keyword">extends</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//netty空闲状态检测的处理器，构造器参数分别为读空闲时间、写空闲时间、读写空闲时间</span></span><br><span class="line">        pipeline.addLast(<span class="keyword">new</span> IdleStateHandler(<span class="number">10</span>, <span class="number">15</span>, <span class="number">2</span>,TimeUnit.SECONDS));</span><br><span class="line"></span><br><span class="line">        pipeline.addLast(<span class="keyword">new</span> MyServerHandler());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自定义Handler重写userEventTriggered方法，该方法作用是evt超时事件触发后，将其转移到管道中的下一个handler中。若没有触发，该方法则不会被调用，重写后即判断事件的超时类型，并在控制台打印出来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//事件evt触发后，会转到管道中下一个handler.</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">userEventTriggered</span><span class="params">(ChannelHandlerContext ctx, Object evt)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(evt <span class="keyword">instanceof</span> IdleStateEvent) &#123;</span><br><span class="line">		IdleStateEvent event = (IdleStateEvent)evt;</span><br><span class="line">		</span><br><span class="line">		String eventType = <span class="keyword">null</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">switch</span>(event.state()) &#123;</span><br><span class="line">		<span class="keyword">case</span> READER_IDLE:</span><br><span class="line">			eventType = <span class="string">"读空闲"</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> WRITER_IDLE:</span><br><span class="line">			eventType = <span class="string">"写空闲"</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> ALL_IDLE:</span><br><span class="line">			eventType = <span class="string">"读写空闲"</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.println(ctx.channel().remoteAddress()+<span class="string">"超时事件 ："</span>+eventType);</span><br><span class="line">		</span><br><span class="line">		ctx.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>客户端可以沿用上一个Demo的客户端。运行服务端和客户端后，</p>
+<p>若10秒内客户端没有输入任何字符，运行结果为：</p>
+<p>/127.0.0.1:3593超时事件 ：读空闲</p>
+<p>若15秒内客户端一直输入字符，运行结果为</p>
+<p>/127.0.0.1:3960超时事件 ：写空闲</p>
+<p>将IdleStateHandler的读写空闲时间改为2秒，不管是否输入字符，运行结果为：</p>
+<p>/127.0.0.1:4061超时事件 ：读写空闲</p>
+<blockquote>
+<p>参考学习：</p>
+<p><a href="http://iprogramming.cn./" target="_blank" rel="noopener">http://iprogramming.cn./</a></p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+			
+			<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -198,187 +312,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/23/Netty-Socket编程/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/16/Netty网络应用框架01/" class="archive-article-date">
-  	<time datetime="2019-07-16T03:57:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/16/Netty网络应用框架01/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Netty网络应用框架01</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/16/Netty网络应用框架01/">Netty网络应用框架01</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/13/JAVA-NIO初步/" class="archive-article-date">
-  	<time datetime="2019-07-13T10:23:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/13/JAVA-NIO初步/">JAVA NIO初步</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/13/JAVA-多线程基础/" class="archive-article-date">
-  	<time datetime="2019-07-13T10:19:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/13/JAVA-多线程基础/">JAVA 多线程基础</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/10/JAVA-IO学习记录/" class="archive-article-date">
-  	<time datetime="2019-07-10T03:56:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/10/JAVA-IO学习记录/">JAVA IO学习记录</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -409,9 +442,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
