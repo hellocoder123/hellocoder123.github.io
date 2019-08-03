@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/childer.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/out1.png">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/out2.png">
-<meta property="og:updated_time" content="2019-08-03T03:59:43.442Z">
+<meta property="og:updated_time" content="2019-08-03T04:02:53.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Netty 对WebSocket的支持">
 <meta name="twitter:description" content="Netty 对WebSocket的支持Http通信的弊端大部分浏览器从Html5开始支持WebSocket的全双工网络通信机制。在此之前，基于Http协议的网络通讯方式具有很大的局限性。首先，Http协议是一种无状态的，无连接（指的是每次建立连接只处理一个请求），基于单向请求的协议。这种协议对于客户端的每一次请求都必须建立一次连接。因此，当服务端的并发请求数量猛增的时候，通信时开销会急剧增加，并且">
@@ -188,6 +188,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Netty-对WebSocket的支持"><a href="#Netty-对WebSocket的支持" class="headerlink" title="Netty 对WebSocket的支持"></a>Netty 对WebSocket的支持</h2><h4 id="Http通信的弊端"><a href="#Http通信的弊端" class="headerlink" title="Http通信的弊端"></a>Http通信的弊端</h4><p>大部分浏览器从Html5开始支持WebSocket的<strong>全双工</strong>网络通信机制。在此之前，基于Http协议的网络通讯方式具有很大的局限性。首先，Http协议是一种<strong>无状态的</strong>，<strong>无连接</strong>（指的是每次建立连接只处理一个请求），<strong>基于单向请求</strong>的协议。这种协议对于客户端的每一次请求都必须建立一次连接。因此，当服务端的并发请求数量猛增的时候，通信时开销会急剧增加，并且，在同一客户端对服务端再次发起请求时，需要重信建立连接。除此之外，通信只能是从客户端发起请求，服务器不能主动向客户端发送数据。</p>
+<a id="more"></a>
+
 <h4 id="WebSockets"><a href="#WebSockets" class="headerlink" title="WebSockets"></a>WebSockets</h4><p><img src="https://s1.51cto.com/images/blog/201811/04/aa56027832a36a1dd747a586beea0644.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt></p>
 <p>WebSocket建立连接步骤：</p>
 <ol>
