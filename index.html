@@ -155,6 +155,111 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-P2P基本概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/06/P2P基本概念/">P2P基本概念</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/06/P2P基本概念/" class="archive-article-date">
+  	<time datetime="2019-09-06T01:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-06</time>
+</a>
+        
+		
+		
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="P2P对等网络"><a href="#P2P对等网络" class="headerlink" title="P2P对等网络"></a>P2P对等网络</h2><p>​        P2P,Peer-to-peer是将同一网络内的各个节点以peer(“同事”)的身份实现互联，从而达到信息传输和资源共享的功能。与传统Client/Server模式对比，P2P对等网络的各个节点是一种平等的位置关系，每一个节点既是服务器又是客户端，能够很大程度上平均服务器维护的开销，使各节点负载均衡。</p>
+<p>P2P技术的特点：</p>
+<blockquote>
+<ul>
+<li>去中心化：P2P技术使得网络中的资源与服务无需集中在某一些节点上，而使资源与服务分散到各个节点，并且，各个节点之间直接相连，减少了很大一部分的中心环节。</li>
+<li>健壮性：由于服务被分散到网络中的各个节点，因此，当某一个节点崩溃时，对整个网络的运行情况的影响较小</li>
+<li>可拓展性：在P2P网络中，当加入某一节点时，不仅服务需求增加，系统整体的资源和服务能力也会得到提升。从理论上来说，P2P对等网络的系统可拓展性是无限的。</li>
+<li>高性价比：采用P2P架构可以有效地利用互联网中散布的大量普通结点，将计算任务或存储资料分布到所有结点上。利用其中闲置的计算能力或存储空间，达到高性能计算和海量存储的目的。目前，P2P在这方面的应用多在学术研究方面，一旦技术成熟，能够在工业领域推广，则可以为许多企业节省购买大型服务器的成本。</li>
+<li>隐私保护：节点在提供与请求服务时，直接与目标节点相连，省去了对节点信息的集中，避免了信息泄露。</li>
+<li>负载均衡：每一个节点既是服务器又是客户端，能够很大程度上平均服务器维护的开销，使各节点负载均衡</li>
+</ul>
+</blockquote>
+<p>P2P对等网络架构按照拓扑模型分为结构化P2P与非结构化P2P；根据结构关系，还能进一步可以划分成：</p>
+<ul>
+<li>中心化拓扑：使用一个中心目录服务器管理各个资源的目录，而实际的资源还是由资源需求与提供双方进行直接连接。这种结构大大减少了</li>
+<li>全分布式结构化拓扑</li>
+<li>全分布式非结构化拓扑</li>
+<li>半分布式拓扑</li>
+</ul>
+<p>结构化P2P网络，又被称作DHT(Distributed Hash Table,分布式哈希表)。</p>
+<ol>
+<li>哈希表被分为不连续的块，每个节点被分配给一个属于自己的哈希块，并成为这个哈希块的管理者。</li>
+<li>通过加密哈希函数，一个对象的名字或者关键字被映射成128位或者160位的散列值。</li>
+</ol>
+<p>DHT网络的基本思想：</p>
+<ol>
+<li>每一份资源都被一组关键字唯一标识；</li>
+<li>系统对其中的每一个关键字进行Hash,根据hash的结果决定该关键字对应响应关键字的哪条信息由哪个信息进行存储。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">综述</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/06/P2P基本概念/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dairy-2019-8-03-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -994,6 +1099,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">综述</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
