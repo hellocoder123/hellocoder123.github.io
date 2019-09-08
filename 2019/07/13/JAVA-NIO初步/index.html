@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235823993-1417525264.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/554581/201706/554581-20170626235939664-204697244.png">
-<meta property="og:updated_time" content="2019-07-14T04:20:50.921Z">
+<meta property="og:updated_time" content="2019-09-06T13:26:47.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA NIO初步">
 <meta name="twitter:description" content="Netty网络通讯框架的底层都是基于NIO实现的连接。">
@@ -220,9 +220,15 @@
 <blockquote>
 <p><a href="http://ifeve.com/buffers/#cap-pos-limit" target="_blank" rel="noopener">缓冲区的三个参数</a>：</p>
 <ul>
-<li>position ： 当前指针位置</li>
-<li>limit : 当前缓冲区已有数据的大小（首先要打开读缓冲区，否则limit为缓冲区固定大小）</li>
-<li>capacity : 缓冲区最大容量。</li>
+<li><p>position ： 当前指针位置</p>
+<p>A buffer’s <i>capacity</i> is the number of elements it contains.  The capacity of a buffer is never negative and never changes.  </p>
+</li>
+<li><p>limit : 当前缓冲区已有数据的大小（首先要打开读缓冲区，否则limit为缓冲区固定大小）</p>
+<p>A buffer’s <i>limit</i> is the index of the first element that should not be read or written.  A buffer’s limit is never negative and is never greater than its capacity. </p>
+</li>
+<li><p>capacity : 缓冲区最大容量。</p>
+<p>A buffer’s <i>capacity</i> is the number of elements it contains.  The capacity of a buffer is never negative and never changes.  </p>
+</li>
 </ul>
 </blockquote>
 <p><img src="https://github.com/hellocoder123/PostImage/raw/master/buffers-modes.png" alt="buffer读写模式"></p>
@@ -244,6 +250,9 @@
 <p>​        对比可以看到，在写模式下，Buffer的limit表示你最多能往Buffer里写多少数据。 写模式下，limit等于Buffer的capacity。</p>
 </blockquote>
 <p>使用filp方法读取缓冲区的数据</p>
+<blockquote>
+<p> Flips this buffer.  The limit is set to the current position and then the position is set to zero.  If the mark is defined then it is discarded.</p>
+</blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buf.filp();</span><br></pre></td></tr></table></figure>
 
 <p>运行结果为</p>
@@ -550,10 +559,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">综述</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -566,7 +571,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">综述</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">心得</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
             
             <div class="clearfix"></div>
