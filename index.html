@@ -181,41 +181,9 @@
         <h2 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h2><h4 id="一、只出现一次的数字（leetcode136"><a href="#一、只出现一次的数字（leetcode136" class="headerlink" title="一、只出现一次的数字（leetcode136)"></a>一、只出现一次的数字（leetcode136)</h4><blockquote>
 <p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
 </blockquote>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,2,1]</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [4,1,2,1,2]</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
-
-<p>第一次解题，很简单的想到用HashMap映射将不同的数字出现的次数进行统计，再遍历map找到只出现一次的数字。具体代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">		 Map&lt;Integer,Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Integer,Integer&gt;();</span><br><span class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> i : nums) &#123;</span><br><span class="line">			Integer count = map.get(i);</span><br><span class="line">			count = count==<span class="keyword">null</span> ?<span class="number">1</span>:++count;</span><br><span class="line">			map.put(i, count);	</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) &#123;</span><br><span class="line">			<span class="keyword">if</span>(entry.getValue()==<span class="number">1</span>) <span class="keyword">return</span> entry.getKey();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;     </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是，题目要求算法具有线性时间复杂度，且空间复杂度为O(1)，显然上面这种解法不满足条件，其空间复杂度达到了O(n)。正确解法要用到位运算，基本理论是：两个相同的数字异或为0，而0与其他任何数异或都等于他本省。因此很显然能够想到，将数组中的数字依次进行异或运算后，得到的结果即为最后只出现了一次的数字。具体代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ans = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            ans = ans^nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="拓展题（leetcode137"><a href="#拓展题（leetcode137" class="headerlink" title="拓展题（leetcode137)"></a>拓展题（leetcode137)</h4><blockquote>
-<p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。</p>
-</blockquote>
-<p>若题目没有给出算法复杂度的要求。显然上一题中的第一种解法对此题是兼容的，若同样要求算法具有线性时间复杂度，且空间复杂度为O(1)，那么依然需要采用位运算的方法进行解题，由于上题采用了二进制的位运算解法，因此很自然的想到可以模拟三进制“异或”方法进行解题。（异或运算实质是二进制不进位加法，因此我们要采取三进制不进位加法模拟“异或”）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">int</span> ones =<span class="number">0</span>,tows=<span class="number">0</span>,threes=<span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> num:nums)&#123;</span><br><span class="line">           tows|=ones&amp;num;<span class="comment">//二进制某位出现了两次</span></span><br><span class="line">           ones ^= num;<span class="comment">//二进制某位出现了一次</span></span><br><span class="line">           threes = ones&amp;tows;<span class="comment">//二进制某位出现了三次</span></span><br><span class="line">           ones &amp;= ~threes;</span><br><span class="line">           tows &amp;= ~threes;<span class="comment">//出现了三次的对应位清零</span></span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> ones;</span><br><span class="line">       </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="二、环形链表-leetcode141"><a href="#二、环形链表-leetcode141" class="headerlink" title="二、环形链表 (leetcode141)"></a>二、<a href="https://leetcode-cn.com/problems/linked-list-cycle/" target="_blank" rel="noopener">环形链表</a> (leetcode141)</h4><blockquote>
-<p>给定一个链表，判断链表中是否有环。</p>
-<p>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
-</blockquote>
-<p>该题最开始想到的HashSet的方法，构造一个HashSet存储节点的内存地址，遍历链表节点，同时判断每一个节点是否已经存在该节点了。如果存在，那么表示该链表存在环。具体代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    Set&lt;ListNode&gt; nodesSeen = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nodesSeen.contains(head)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            nodesSeen.add(head);</span><br><span class="line">        &#125;</span><br><span class="line">        head = head.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>题目进一步要求空间复杂度为O(1)，显然上面这种解法不满足条件，因此又提出了一种双指针的解题思路。具体过程是设置两个不同速度的遍历指针（快指针一步过两个节点，慢指针一次过一个节点。)，显然，若链表中存在环路，两指针会相遇而且相遇的节点不为空。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="keyword">null</span>||head.next==<span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        ListNode fast = head.next;</span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        <span class="keyword">while</span>(fast!=slow)&#123;</span><br><span class="line">            <span class="keyword">if</span>(fast==<span class="keyword">null</span>||fast.next==<span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                fast = fast.next.next;</span><br><span class="line">                slow = slow.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Floyd环检测算法</strong></p>
-<p>当链表存在环时，由于指针一快一慢，因此经过N次的循环后，指针一定会在环内的某一个位置上相遇。相遇时，快指针一定比慢指针多走了n圈（n&gt;=1)。</p>
-<p>Floyd环检测算法不仅能检查链表中是否存在环，还能判断环的位置。具体地，当快慢指针在某一点相遇时，将快指针重新指向头节点，慢指针任然指向相遇节点，当它们以相同的速度继续前进时，他们的相遇点即为环的入口节点。</p>
-<p><strong>证明</strong></p>
-<p>如图，若A为头结点，B为环入口结点，M为相遇结点，AB=l,劣弧BM长度为k,环的长度为r,那么，当快慢指针第一次相遇时，显然快指针比慢指针快了一圈，即2s-s = r(s为慢指针移动的距离)，又s = l+k,因此有r = l+k;所以，显然优弧BM的长度等于l,得证。</p>
-<p><img src="https://github.com/hellocoder123/PostImage/raw/master/leetcode0907.png" alt></p>
-
+        
+          <a class="article-more-a" href="/2019/09/08/leetcode0907/#more">more >></a>
+        
       
 
       
@@ -1118,15 +1086,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">综述</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
