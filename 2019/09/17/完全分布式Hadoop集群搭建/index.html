@@ -8,23 +8,23 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>完全分布式Hadoop集群搭建 | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题： 问题一 使三台机器互通时，出现了无法ping通的情况 解决方法：问题是三台主机的ip地址设置成了DHCP动态ip地址，每次关闭linux系统">
+  <meta name="description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题：">
 <meta name="keywords" content="笔记,课程学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="完全分布式Hadoop集群搭建">
 <meta property="og:url" content="http://yoursite.com/2019/09/17/完全分布式Hadoop集群搭建/index.html">
 <meta property="og:site_name" content="Sywang的博客">
-<meta property="og:description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题： 问题一 使三台机器互通时，出现了无法ping通的情况 解决方法：问题是三台主机的ip地址设置成了DHCP动态ip地址，每次关闭linux系统">
+<meta property="og:description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题：">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop001.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop002.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop003.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop004.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop005.PNG">
-<meta property="og:updated_time" content="2019-09-17T02:50:25.776Z">
+<meta property="og:updated_time" content="2019-09-17T02:54:43.315Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="完全分布式Hadoop集群搭建">
-<meta name="twitter:description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题： 问题一 使三台机器互通时，出现了无法ping通的情况 解决方法：问题是三台主机的ip地址设置成了DHCP动态ip地址，每次关闭linux系统">
+<meta name="twitter:description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题：">
 <meta name="twitter:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop001.PNG">
   
     <link rel="alternative" href="/atom.xml" title="Sywang的博客" type="application/atom+xml">
@@ -190,6 +190,8 @@
       
         <h2 id="完全分布式Hadoop集群搭建（Ubuntu16-04-Hadoop-2-7-7"><a href="#完全分布式Hadoop集群搭建（Ubuntu16-04-Hadoop-2-7-7" class="headerlink" title="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)"></a>完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)</h2><p>搭建过程基本上参考这篇博文：<a href="https://blog.csdn.net/u014636511/article/details/80171002" target="_blank" rel="noopener">https://blog.csdn.net/u014636511/article/details/80171002</a></p>
 <p>下面主要记录一下遇到的问题：</p>
+<a id="more"></a>
+
 <p><strong>问题一 使三台机器互通时，出现了无法ping通的情况</strong></p>
 <p>解决方法：问题是三台主机的ip地址设置成了DHCP动态ip地址，每次关闭linux系统在重新启动之后都会重新获得新的ip地址。可以通过手动方式改成静态ip(具体做法：点击网络图标-&gt;编辑连接-&gt;ipv4设置-&gt;方法改成手动-&gt;添加ip，网关和子网掩码，不会可以查看网络信息，类似即可)</p>
 <p><strong>问题二 启动集群后，报找不到JAVA_HOME的错误</strong></p>
@@ -453,10 +455,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">课程学习</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">综述</a>
               </li>
              
@@ -466,6 +464,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">心得</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">课程学习</a>
               </li>
              
               <li class="article-tag-list-item">
