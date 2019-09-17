@@ -155,6 +155,102 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-完全分布式Hadoop集群搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/17/完全分布式Hadoop集群搭建/">完全分布式Hadoop集群搭建</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/17/完全分布式Hadoop集群搭建/" class="archive-article-date">
+  	<time datetime="2019-09-17T02:49:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-17</time>
+</a>
+        
+		
+		
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="完全分布式Hadoop集群搭建（Ubuntu16-04-Hadoop-2-7-7"><a href="#完全分布式Hadoop集群搭建（Ubuntu16-04-Hadoop-2-7-7" class="headerlink" title="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)"></a>完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)</h2><p>搭建过程基本上参考这篇博文：<a href="https://blog.csdn.net/u014636511/article/details/80171002" target="_blank" rel="noopener">https://blog.csdn.net/u014636511/article/details/80171002</a></p>
+<p>下面主要记录一下遇到的问题：</p>
+<p><strong>问题一 使三台机器互通时，出现了无法ping通的情况</strong></p>
+<p>解决方法：问题是三台主机的ip地址设置成了DHCP动态ip地址，每次关闭linux系统在重新启动之后都会重新获得新的ip地址。可以通过手动方式改成静态ip(具体做法：点击网络图标-&gt;编辑连接-&gt;ipv4设置-&gt;方法改成手动-&gt;添加ip，网关和子网掩码，不会可以查看网络信息，类似即可)</p>
+<p><strong>问题二 启动集群后，报找不到JAVA_HOME的错误</strong></p>
+<p>解决方法：问题是master机器上装的jdk和另外两个节点不一样，在master节点上重装jdk就好了，另外，免密登录一定要设置好，不然也会报错。</p>
+<p><strong>问题三 启动集群后，hadoop的web管理界面显示只有一个node</strong></p>
+<p>解决方法：问题是在将hadoop的配置信息复制到slave节点上时，没有覆盖掉原来的配置信息，手动修改原来的配置信息即可。</p>
+<p>最后结果：</p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop001.PNG" alt></p>
+<p>web界面</p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop002.PNG" alt></p>
+<p>运行wordcount程序：</p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop003.PNG" alt></p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop004.PNG" alt></p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop005.PNG" alt></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">课程学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/17/完全分布式Hadoop集群搭建/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-leetcode0907" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -902,85 +998,6 @@
 
 
   
-    <article id="post-diary-2019-7-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/11/diary-2019-7-11/">随笔 19.7.10晚</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/11/diary-2019-7-11/" class="archive-article-date">
-  	<time datetime="2019-07-11T03:56:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-11</time>
-</a>
-        
-		
-		
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>前些天，初中班主任突然从微信上联系我，让我给她一个学生辅导功课。当时心想，大抵是班上那种令人头疼的熊孩子吧。于是，一个厌恶学习，吊儿郎当，逃课上网之类的恶习难改云云的初中小屁孩形象浮现在脑海中。对于这种麻烦事，我以前一向都是选择能躲多远就躲多远，后来头脑一热，还是答应了，毕竟毕业后在家呆着也着实无聊。</code></pre>
-        
-          <a class="article-more-a" href="/2019/07/11/diary-2019-7-11/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/11/diary-2019-7-11/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1086,6 +1103,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">课程学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">综述</a>
               </li>
              
@@ -1094,11 +1115,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color3">心得</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">心得</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
             
             <div class="clearfix"></div>
