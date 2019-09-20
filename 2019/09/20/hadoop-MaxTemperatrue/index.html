@@ -6,20 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>随笔 19.7.12上午 | Sywang的博客</title>
+  <title>hadoop-MaxTemperatrue | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Markdown是一种普通文本编辑器编写的标记语言。刚发现这一语言有一种相见恨晚的感觉，这么简洁优雅高逼格，而且最重要的是超级容易上手，我只看了篇相关的语法博客就感觉完全够用了。这个工具语言最大的好处就是所见即所得，让人能够基本上忽略写作时的排版问题，而更加关注内容本身。">
-<meta name="keywords" content="随笔,心得">
+  <meta name="description" content="《Hadoop权威指南》实例Max_Temperatrue实现一、Java MapReduce程序的运行过程 用hadoop分析数据时，hadoop将程序分成Map模块和Reduce模块，每一个模块都是以Key-Value的形式作为输入和输出。">
+<meta name="keywords" content="笔记,hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="随笔 19.7.12上午">
-<meta property="og:url" content="http://yoursite.com/2019/07/12/diary-2019-7-12/index.html">
+<meta property="og:title" content="hadoop-MaxTemperatrue">
+<meta property="og:url" content="http://yoursite.com/2019/09/20/hadoop-MaxTemperatrue/index.html">
 <meta property="og:site_name" content="Sywang的博客">
-<meta property="og:description" content="Markdown是一种普通文本编辑器编写的标记语言。刚发现这一语言有一种相见恨晚的感觉，这么简洁优雅高逼格，而且最重要的是超级容易上手，我只看了篇相关的语法博客就感觉完全够用了。这个工具语言最大的好处就是所见即所得，让人能够基本上忽略写作时的排版问题，而更加关注内容本身。">
+<meta property="og:description" content="《Hadoop权威指南》实例Max_Temperatrue实现一、Java MapReduce程序的运行过程 用hadoop分析数据时，hadoop将程序分成Map模块和Reduce模块，每一个模块都是以Key-Value的形式作为输入和输出。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-14T04:19:57.407Z">
+<meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop008.PNG">
+<meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop006.PNG">
+<meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop007.PNG">
+<meta property="og:updated_time" content="2019-09-20T01:58:47.396Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随笔 19.7.12上午">
-<meta name="twitter:description" content="Markdown是一种普通文本编辑器编写的标记语言。刚发现这一语言有一种相见恨晚的感觉，这么简洁优雅高逼格，而且最重要的是超级容易上手，我只看了篇相关的语法博客就感觉完全够用了。这个工具语言最大的好处就是所见即所得，让人能够基本上忽略写作时的排版问题，而更加关注内容本身。">
+<meta name="twitter:title" content="hadoop-MaxTemperatrue">
+<meta name="twitter:description" content="《Hadoop权威指南》实例Max_Temperatrue实现一、Java MapReduce程序的运行过程 用hadoop分析数据时，hadoop将程序分成Map模块和Reduce模块，每一个模块都是以Key-Value的形式作为输入和输出。">
+<meta name="twitter:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop008.PNG">
   
     <link rel="alternative" href="/atom.xml" title="Sywang的博客" type="application/atom+xml">
   
@@ -155,20 +159,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-diary-2019-7-12" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-hadoop-MaxTemperatrue" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      随笔 19.7.12上午
+      hadoop-MaxTemperatrue
     </h1>
   
 
         
-        <a href="/2019/07/12/diary-2019-7-12/" class="archive-article-date">
-  	<time datetime="2019-07-12T02:56:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-12</time>
+        <a href="/2019/09/20/hadoop-MaxTemperatrue/" class="archive-article-date">
+  	<time datetime="2019-09-20T01:02:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-20</time>
 </a>
         
 		
@@ -182,11 +186,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://baike.baidu.com/item/markdown/3245829?fr=aladdin" target="_blank" rel="noopener">Markdown</a>是一种普通文本编辑器编写的标记语言。刚发现这一语言有一种相见恨晚的感觉，这么简洁优雅高逼格，而且最重要的是超级容易上手，我只看了篇相关的语法博客就感觉完全够用了。这个工具语言最大的好处就是所见即所得，让人能够基本上忽略写作时的排版问题，而更加关注内容本身。</p>
+        <h2 id="《Hadoop权威指南》实例Max-Temperatrue实现"><a href="#《Hadoop权威指南》实例Max-Temperatrue实现" class="headerlink" title="《Hadoop权威指南》实例Max_Temperatrue实现"></a>《Hadoop权威指南》实例Max_Temperatrue实现</h2><p>一、Java MapReduce程序的运行过程</p>
+<p>用hadoop分析数据时，hadoop将程序分成Map模块和Reduce模块，每一个模块都是以Key-Value的形式作为输入和输出。</p>
 <a id="more"></a>
 
-<p>Typora 则是一款十分流行的Markdown编辑软件，在知乎上发现并不只是经常使用Markdown语言记事的程序员，很多其他领域的大牛也在使用Typora记笔记和进行写作。</p>
-<p>具体Markdown的语法参考大牛的博客：<a href="https://blog.csdn.net/tracy1talent/article/details/82847121" target="_blank" rel="noopener">https://blog.csdn.net/tracy1talent/article/details/82847121</a></p>
+<p>Max_Temperatrue Demo描述：采用美国国家气候资料中心 ( NCDC )的气象数据进行分析，找出每一年出现的最高气温。该气象每一条数据以一行字符串的形式给出，在demo中，我们只关心年份数据和温度数据，分别在第16-19个字符和88-92个字符。Map模块的输入为：&lt;行号（不重要），原始数据&gt;，输出为：&lt;年份，温度&gt;，通过shuffle和排序后，合并相同Key值的数据。得到Reduce的输入：&lt;年份，温度集合&gt;,输出为：&lt;年份，最高温度&gt;。</p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop008.PNG" alt></p>
+<p>具体程序实现时，也分成Map function、Reduce function以及配置信息的主程序</p>
+<p>Map function：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">LongWritable</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MISSING = <span class="number">9999</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(LongWritable key, Text value, Mapper&lt;LongWritable, Text, Text, IntWritable&gt;.Context context)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		String line = value.toString();</span><br><span class="line">		String year = line.substring(<span class="number">15</span>,<span class="number">19</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> airTemperatrue;</span><br><span class="line">		<span class="keyword">if</span>(line.charAt(<span class="number">87</span>)==<span class="string">'+'</span>) &#123;</span><br><span class="line">			airTemperatrue = Integer.parseInt(line.substring(<span class="number">88</span>, <span class="number">92</span>));</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			airTemperatrue = Integer.parseInt(line.substring(<span class="number">87</span>,<span class="number">92</span>));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		String quality = line.substring(<span class="number">92</span>,<span class="number">93</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(airTemperatrue != MISSING &amp;&amp; quality.matches(<span class="string">"[01459]"</span>)) &#123;</span><br><span class="line">			context.write(<span class="keyword">new</span> Text(year), <span class="keyword">new</span> IntWritable(airTemperatrue));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Reduce function:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherReducer</span> <span class="keyword">extends</span> <span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values,</span></span></span><br><span class="line"><span class="function"><span class="params">			Reducer&lt;Text, IntWritable, Text, IntWritable&gt;.Context ctx)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> maxValue = Integer.MIN_VALUE;</span><br><span class="line">		<span class="keyword">for</span> (IntWritable value : values) &#123;</span><br><span class="line">			<span class="keyword">if</span>(value.get()&gt;maxValue) &#123;</span><br><span class="line">				maxValue = value.get();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		ctx.write(key, <span class="keyword">new</span> IntWritable(maxValue));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件的主程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherMain2</span> </span>&#123;</span><br><span class="line">	<span class="keyword">final</span> <span class="keyword">static</span> String INPUT_PATH=<span class="string">"hdfs://192.168.201.128:9000/input"</span>;</span><br><span class="line">	<span class="keyword">final</span> <span class="keyword">static</span> String OUTPUT_PATH=<span class="string">"hdfs://192.168.201.128:9000/output"</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Job job = <span class="keyword">new</span> Job();</span><br><span class="line">		job.setJarByClass(WeatherMain2.class);</span><br><span class="line">		job.setJobName(<span class="string">"Max temperature"</span>);</span><br><span class="line">		</span><br><span class="line">		FileInputFormat.addInputPath(job, <span class="keyword">new</span> Path(INPUT_PATH));</span><br><span class="line">		FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(OUTPUT_PATH));</span><br><span class="line">		</span><br><span class="line">		job.setMapperClass(WeatherMapper.class);</span><br><span class="line">		job.setReducerClass(WeatherReducer.class);</span><br><span class="line">		</span><br><span class="line">		job.setOutputKeyClass(Text.class);</span><br><span class="line">		job.setOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		System.exit(job.waitForCompletion(<span class="keyword">true</span>)?<span class="number">0</span>:<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这里的输入输出路径写死了，实际上可以通过args数组以命令行的形式键入输入输出路径。</p>
+</li>
+<li><p>这里的WeatherMapper和WeatherReducer是以静态内部类的形式创建的，也可以创建三个独立的class</p>
+</li>
+<li><p>将程序编译成jar包后，运行hadoop jar WeatherMain2.jar即可。</p>
+<p>运行结果：</p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop006.PNG" alt></p>
+<p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop007.PNG" alt></p>
+</li>
+</ul>
 
       
 
@@ -226,11 +252,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心得</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">hadoop</a>
         		</li>
       		
 		</ul>
@@ -286,7 +312,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/12/diary-2019-7-12/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/20/hadoop-MaxTemperatrue/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -300,18 +326,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/13/JAVA-多线程基础/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JAVA 多线程基础
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/11/diary-2019-7-11/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">随笔 19.7.10晚</div>
+    <a href="/2019/09/17/完全分布式Hadoop集群搭建/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">完全分布式Hadoop集群搭建</div>
       <i class="icon-circle-right"></i>
     </a>
   

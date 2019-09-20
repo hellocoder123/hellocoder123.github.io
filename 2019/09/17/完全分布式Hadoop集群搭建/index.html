@@ -9,7 +9,7 @@
   <title>完全分布式Hadoop集群搭建 | Sywang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题：">
-<meta name="keywords" content="笔记,课程学习">
+<meta name="keywords" content="笔记,hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="完全分布式Hadoop集群搭建">
 <meta property="og:url" content="http://yoursite.com/2019/09/17/完全分布式Hadoop集群搭建/index.html">
@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop003.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop004.PNG">
 <meta property="og:image" content="https://github.com/hellocoder123/PostImage/raw/master/hadoop005.PNG">
-<meta property="og:updated_time" content="2019-09-17T02:54:43.315Z">
+<meta property="og:updated_time" content="2019-09-20T02:09:47.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="完全分布式Hadoop集群搭建">
 <meta name="twitter:description" content="完全分布式Hadoop集群搭建（Ubuntu16.04 + Hadoop-2.7.7)搭建过程基本上参考这篇博文：https://blog.csdn.net/u014636511/article/details/80171002 下面主要记录一下遇到的问题：">
@@ -198,6 +198,11 @@
 <p>解决方法：问题是master机器上装的jdk和另外两个节点不一样，在master节点上重装jdk就好了，另外，免密登录一定要设置好，不然也会报错。</p>
 <p><strong>问题三 启动集群后，hadoop的web管理界面显示只有一个node</strong></p>
 <p>解决方法：问题是在将hadoop的配置信息复制到slave节点上时，没有覆盖掉原来的配置信息，手动修改原来的配置信息即可。</p>
+<p><strong>问题四 多次格式化文件系统导致namenode无法启动</strong></p>
+<p>解决方法：频繁格式化会导致namenodeID更新，而datanode只会保存第一次格式化的namenodeID这样namenode和datanode中的ID不一致就出错了。可以手动修改配置文件中dfs.datanode.data.dir在本地系统的路径下的current/VERSION中的clusterID，改为与namenode一样。重启即可！</p>
+<p><strong>问题五 开启集群后9000端口未开启，无法连接到文件系统</strong></p>
+<p>检查防火墙是否关闭-&gt;检查core-site.xml配置-&gt;检查etc/hosts文件，都没有问题，直接格式化文件系统就好了~~</p>
+<p>具体原因还不太明白。。。</p>
 <p>最后结果：</p>
 <p><img src="https://github.com/hellocoder123/PostImage/raw/master/hadoop001.PNG" alt></p>
 <p>web界面</p>
@@ -249,7 +254,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">课程学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">hadoop</a>
         		</li>
       		
 		</ul>
@@ -318,6 +323,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/09/20/hadoop-MaxTemperatrue/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          hadoop-MaxTemperatrue
+        
+      </div>
+    </a>
   
   
     <a href="/2019/09/08/leetcode0907/" id="article-nav-older" class="article-nav-link-wrap">
@@ -455,7 +469,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">综述</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -463,11 +477,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">心得</a>
+                <a href="javascript:void(0)" class="js-tag color3">综述</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">课程学习</a>
+                <a href="javascript:void(0)" class="js-tag color3">心得</a>
               </li>
              
               <li class="article-tag-list-item">
